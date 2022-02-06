@@ -1,7 +1,9 @@
+// imports
 const express = require("express")
 const router = express.Router()
 const jwt = require("jsonwebtoken")
-// require("dotenv").config()
+
+
 
 router.get("/dashboard", (req, res) => {
     const luckyNumber = Math.floor(Math.random() * 100)
@@ -12,9 +14,11 @@ router.get("/dashboard", (req, res) => {
     })
 })
 
+
+
 router.post("/login",async (req, res) => {
   const {username, password} = req.body
-
+  
 // We can Apply here Mongoose validation too in the schema
   if(!username || !password){
     throw new Error("Enter All Detailss")

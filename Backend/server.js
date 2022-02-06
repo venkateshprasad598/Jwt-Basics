@@ -1,30 +1,34 @@
-require("dotenv").config()
-require("express-async-errors")
+require('dotenv').config();
+require('express-async-errors');
 
+const express = require('express');
+const app = express();
 
-const express = require("express")
-const app = express()
-const jwt = require("./routes/main")
-const errorMsg = require("./middleware/error")
-const notFoundMsg = require("./middleware/not-found")
+const mainRouter = require('./routes/main');
+const notFoundMiddleware = require('./middleware/not-found');
+const errorHandlerMiddleware = require('./middleware/error-handler');
 
-//middleWare
+// middleware
 app.use(express.static('./public'));
-app.use(express.json())
+app.use(express.json());
 
-app.use("/api/v1", jwt)
-app.use(notFoundMsg)
-app.use(errorMsg)
+app.use('/api/v1', mainRouter);
+
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
 
 
 //port
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 5000;
 
-const start = async() => {
-    try {
-        await app.listen(port, console.log("Server is listening to port " + port))
-    } catch (error) {
-        console.log(error);
-    }
-}
-start()
+const start = async () => {
+  try {
+    app.listen(port, () =>
+      console.log(`Server is listening on port ${port}...`)
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+start();
